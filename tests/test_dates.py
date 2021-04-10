@@ -11,6 +11,6 @@ d = """ Born and raised in central Argentina, Messi relocated to Spain to join B
 
 
 def test_date():
-    (data, list_dates, count) = redactor.redact_dates(d)
+    (data, list_dates, count) = redactor.sanitize_dates(d)
     assert c ==2
     assert ['October 2004' , '2008'] == list_dates
