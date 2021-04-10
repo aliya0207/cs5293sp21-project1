@@ -1,5 +1,6 @@
 # cs5293sp21-project1
-Project 1
+Project 1:
+
 ## ALIYA SHAIKH EMAIL: aliyashaikh02@ou.edu
 ## The Redactor
 ### Introduction
