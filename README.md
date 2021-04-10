@@ -77,5 +77,21 @@ pipenv run python redactor.py --input '*.txt' \
  
  ### TESTS:
  
+ ## 1. test names:
+ For this test, we call the sanitize_names function in redactor.py.
+ Here, to test, I have given the text and then by calling to the function in redactor.py we will get the names and the number of names to be redacted. 
  
+ ## 2. test dates:
+ For this test, we call the sanitize_dates function in redactor.py.
+ Here, to test, I have given the text and then by calling to the function in redactor.py we will get the dates and the number of dates to be redacted. 
+ 
+ ## 3. test phone number:
+ For this test, we call the sanitize_phones function in redactor.py.
+ Here, to test, I have given the text and then by calling to the function in redactor.py we will get the phone numbers and the number of phone numbers to be redacted. 
+ 
+ ## 4. test concept:
+ For this test, we call the sanitize_concept function in redactor.py.
+ Here, to test, I have given the text and then by calling to the function in redactor.py we will get the number of sentences to be redacted. 
+                    
+                    
                     
