@@ -22,7 +22,7 @@ def Read_files(text_files):
             # print(data1)
             data.append(data1)
     # print(type(data))
-    # print(len(data))
+    print(len(data),data)
     return data
 
 nlp = spacy.load('en_core_web_sm')
@@ -30,26 +30,6 @@ nlp = spacy.load('en_core_web_sm')
 
 #for ent in docx1.ents:
 #    print(ent.text,ent.label_)
-    
-def redacted_stats(redacted_selection= 'none', count=0):
-
-    if redacted_selection =='redacted_names':
-        a1 = "The count of " + redacted_type + " is : " + str(count)
-        stats_list.append(a1)
-        # print(stats_list)
-    elif redacted_selection == 'redacted_dates':
-        a1 = "The count of " + redacted_type + " is : " + str(count)
-        stats_list.append(a1)
-    elif redacted_selection == 'redacted_phones':
-        a1 = "The count of " + redacted_type + " is : " + str(count)
-        stats_list.append(a1)
-    elif redacted_selection == 'redacted_concept':
-        a1 = "The count of " + redacted_type + " is : " + str(count)
-        stats_list.append(a1)
-
-    # print(len(stats_list))
-    return stats_list
-
 
 def sanitize_dates(data):
     docx = nlp(data)
@@ -152,6 +132,23 @@ redact_concepts (data, key)
 
 print(len(stats_list), stats_list)
 
+
+def redacted_stats(redacted_selection= 'none', count=0):
+    if redacted_selection =='redacted_names':
+        a1 = "The count of " + redacted_type + " is : " + str(count)
+        stats_list.append(a1)
+        # print(stats_list)
+    elif redacted_selection == 'redacted_dates':
+        a1 = "The count of " + redacted_type + " is : " + str(count)
+        stats_list.append(a1)
+    elif redacted_selection == 'redacted_phones':
+        a1 = "The count of " + redacted_type + " is : " + str(count)
+        stats_list.append(a1)
+    elif redacted_selection == 'redacted_concept':
+        a1 = "The count of " + redacted_type + " is : " + str(count)
+        stats_list.append(a1)
+    # print(len(stats_list))
+    return stats_list
 
 def final_output(text_files,data,output_path):
     # print((output_path))

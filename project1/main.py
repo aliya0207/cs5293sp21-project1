@@ -3,7 +3,7 @@ import argparse
 
 if __name__== '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", type=str, required=True, help="Files to be redacted.")
+    parser.add_argument("--input", type=str, required=True, help="Files to be redacted.", nargs='*', action='append')
     parser.add_argument("--names", help="Redact names", action='store_true')
     parser.add_argument("--dates", help="Redact dates", action='store_true')
     parser.add_argument("--phones",help="Redact phones", action='store_true')
