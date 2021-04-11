@@ -1,5 +1,6 @@
 import os
 import spacy
+import glob
 import re
 import nltk
 from nltk.corpus import wordnet
@@ -25,10 +26,10 @@ def Read_files(text_files):
     return data
 
 nlp = spacy.load('en_core_web_sm')
-docx1 = nlp(data)
+#docx1 = nlp(data)
 
-for ent in docx1.ents:
-    print(ent.text,ent.label_)
+#for ent in docx1.ents:
+#    print(ent.text,ent.label_)
     
 def redacted_stats(redacted_selection= 'none', count=0):
 
