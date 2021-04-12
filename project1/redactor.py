@@ -56,6 +56,7 @@ def sanitize_dates(data):
         data=data.replace(str(all_dates),'\u2588')
     selection= "redacted_dates"
     redacted_stats(selection,len(dates_list))
+    print(list_dates)
     return data,list_dates,count
 #sanitize_dates(data)
 
@@ -76,6 +77,7 @@ def sanitize_names(data):
         data=data.replace(str(found_names),'\u2588')
     selection= "redacted_names"
     redacted_stats(selection,len(names_list))
+    print(list_names)
     return data,list_names,count
 #sanitize_names(data)
 
@@ -92,6 +94,7 @@ def sanitize_phones (data):
    # print(data)
     selection= "redacted_phones"
     redacted_stats(selection,count)
+    print(phone_number)
     return data,phone_number,count
 #sanitize_phones(data)
 
@@ -133,7 +136,7 @@ def sanitize_concepts (data, key):
                 sentences[i] = '\u2588'
                 sent_list.append(all_concepts)
    # data = ''
-    #print(sentences)
+    print(concepts)
     for sent in sentences:
         data = data + sent
     selection= "redacted_concept"
@@ -142,7 +145,7 @@ def sanitize_concepts (data, key):
     return data,all_concepts,count
 #redact_concepts (data, key)
 
-print(len(stats_list), stats_list)
+#print(len(stats_list), stats_list)
 
 
 def redacted_stats(redacted_selection= 'none', count=0):
@@ -170,7 +173,7 @@ def final_output(text_files,data,output_path):
     #for filename in glob.glob(os.path.join(os.getcwd(),text_files)):
         #if text_files
     folder = os.getcwd() + '/'+output_path
-    #print("Here")
+   
     new_file = text_files.replace(".txt", ".redacted.txt")
     isFolder = os.path.isdir(folder)
     if isFolder== False:
@@ -178,7 +181,7 @@ def final_output(text_files,data,output_path):
     with open( os.path.join(folder, new_file), "w+") as f:
         #print(data)
         strs = data.split("\n")
-        print(strs)
+        #print(strs)
         for strdat in strs:
             data1 = f.write(strdat)
             #print(strdat)
