@@ -14,7 +14,9 @@ if __name__== '__main__':
     args = parser.parse_args()
 
     temp = redactor.Read_files(args.input)
-
+    print(temp)
+    print(args)
+    print("hello")
     if (args.names):
          temp = redactor.sanitize_names(temp)
     if (args.gender):

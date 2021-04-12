@@ -3,6 +3,7 @@ import spacy
 import glob
 import re
 import nltk
+import argparse
 from nltk.corpus import wordnet
 from nltk.tokenize import sent_tokenize, word_tokenize
 
@@ -10,20 +11,28 @@ stats_list=[]
 def Read_files(text_files):
     # print(text_files)
     data = []
-    files = nltk.flatten(text_files)
-
-    for i in range(len(files)):
-        # print(files[i])
-        text_files1 = glob.glob(files[i])
-        # print(text_files1)
-        for j in range(len(text_files1)):
-            # print(text_files1[j])
-            data1 = open(text_files1[j]).read()
-            # print(data1)
+    #files = nltk.flatten(text_files)
+    #print(files)
+    #for i in range(len(files)):
+    #print(os.getcwd())
+    filenames =[]
+    for filename in glob.glob(os.path.join(os.getcwd(),text_files)):
+        #print(filename)
+        filenames.append(filename.split('/')[-1])
+        print(filenames)
+        with open(os.path.join(os.getcwd(), filename), "r") as f:
+            data1 = f.read()
             data.append(data1)
+
+        #if(filename.endswith(text_files)!= -1):
+         #   print(filename)
+          #  with open(os.path.join(os.getcwd()+"/"+output_path, filename), "r") as f:
+           #     data1 = f.read()
+            #    data.append(data1)
+
     # print(type(data))
-    print(len(data),data)
-    return data
+    #print(len(data),data)
+    return data, filenames
 
 nlp = spacy.load('en_core_web_sm')
 #docx1 = nlp(data)
@@ -36,19 +45,19 @@ def sanitize_dates(data):
     dates_list=[]
     list_dates=[]
     for ent in docx.ents:
-        if ent.label_ == 'DATE':
+         if ent.label_ == 'DATE':
             list_dates.append(ent)
     
     count=0
     for all_dates in list_dates:
         count +=len(re.findall(str(all_dates), data))
-        print(all_dates)
+        #print(all_dates)
         dates_list.append(all_dates)
         data=data.replace(str(all_dates),'\u2588')
     selection= "redacted_dates"
     redacted_stats(selection,len(dates_list))
     return data,list_dates,count
-sanitize_dates(data)
+#sanitize_dates(data)
 
 def sanitize_names(data):
     docx = nlp(data)
@@ -62,13 +71,13 @@ def sanitize_names(data):
     count=0
     for found_names in list_names:
         count +=len(re.findall(str(found_names), data))
-        print(found_names)
+        #print(found_names)
         names_list.append(found_names)
         data=data.replace(str(found_names),'\u2588')
     selection= "redacted_names"
     redacted_stats(selection,len(names_list))
     return data,list_names,count
-sanitize_names(data)
+#sanitize_names(data)
 
 
 def sanitize_phones (data):
@@ -80,10 +89,11 @@ def sanitize_phones (data):
     phone_number.sort (key =len, reverse=True)
     for i in phone_number:
         data = data.replace (i,'\u2588')
+   # print(data)
     selection= "redacted_phones"
     redacted_stats(selection,count)
     return data,phone_number,count
-sanitize_phones(data)
+#sanitize_phones(data)
 
 
 def sanitize_concepts (data, key):
@@ -110,7 +120,7 @@ def sanitize_concepts (data, key):
         
     concepts = set(concepts)
     concepts = concepts & set(nltk.word_tokenize(data))
-    print (concepts)
+    #print (concepts)
     sentences = nltk.sent_tokenize(data)
     count = 0
     all_concepts = list()
@@ -122,30 +132,32 @@ def sanitize_concepts (data, key):
                 print (sentences[i])
                 sentences[i] = '\u2588'
                 sent_list.append(all_concepts)
-    data = ''
+   # data = ''
+    print(sentences)
     for sent in sentences:
         data = data + sent
     selection= "redacted_concept"
     redacted_stats(selection,count)
+    print(data)
     return data,all_concepts,count
-redact_concepts (data, key)
+#redact_concepts (data, key)
 
 print(len(stats_list), stats_list)
 
 
 def redacted_stats(redacted_selection= 'none', count=0):
     if redacted_selection =='redacted_names':
-        a1 = "The count of " + redacted_type + " is : " + str(count)
+        a1 = "The count of " + redacted_selection + " is : " + str(count)
         stats_list.append(a1)
         # print(stats_list)
     elif redacted_selection == 'redacted_dates':
-        a1 = "The count of " + redacted_type + " is : " + str(count)
+        a1 = "The count of " + redacted_selection + " is : " + str(count)
         stats_list.append(a1)
     elif redacted_selection == 'redacted_phones':
-        a1 = "The count of " + redacted_type + " is : " + str(count)
+        a1 = "The count of " + redacted_selection + " is : " + str(count)
         stats_list.append(a1)
     elif redacted_selection == 'redacted_concept':
-        a1 = "The count of " + redacted_type + " is : " + str(count)
+        a1 = "The count of " + redacted_selection + " is : " + str(count)
         stats_list.append(a1)
     # print(len(stats_list))
     return stats_list
@@ -153,45 +165,80 @@ def redacted_stats(redacted_selection= 'none', count=0):
 def final_output(text_files,data,output_path):
     # print((output_path))
     file_names =[]
-    all_files = nltk.flatten(text_files)
-    for i in range(len(all_files)):
-        text_files1 = glob.glob(all_files[i])
-        # print(text_files1)
-        for j in range(len(text_files1)):
-            # print(type(text_files1[j]))
-            if '.txt' in  text_files1[j]:
-                text_files1[j] = text_files1[j].replace(".txt", ".redacted.txt")
-            if '.md' in text_files1[j]:
-                text_files1[j] = text_files1[j].replace(".md", ".redacted.txt")
-            if '\\' in text_files1[j]:
-                text_files1[j]= text_files1[j].split("\\")
-                text_files1[j] = text_files1[j][1]
-                # print(text_files1[j])
-            file_names.append(text_files1[j])
-
-    for i in range(len(data)):
-        for j in range(len(file_names)):
-            if i==j:
-                file_data =data[i]
-                # print((file_names[i]))
-                path1 = (os.getcwd())
-                # print(output_path+file_names[j])
-                path2 = (output_path+'/'+file_names[j])
-                result_file = open(os.path.join(path1,path2), "w" ,encoding="utf-8")
-                # print(os.path.join(path1,path2))
-                result_file.write(file_data)
-                result_file.close()
-    return len(file_names)
+    #all_files = nltk.flatten(text_files)
+    
+    #for filename in glob.glob(os.path.join(os.getcwd(),text_files)):
+        #if text_files
+    folder = os.getcwd() + '/'+output_path
+    print("Here")
+    new_file = text_files.replace(".txt", ".redacted.txt")
+    isFolder = os.path.isdir(folder)
+    if isFolder== False:
+        os.makedirs(os.path.dirname(folder))
+    with open( os.path.join(folder, new_file), "w+") as f:
+        print(data)
+        strs = data.split("\n")
+        print(strs)
+        for strdat in strs:
+            data1 = f.write(strdat)
+            #print(strdat)
+        #with open(os.path.join(os.getcwd(), filename), "r") as f:
+            #data1 = f.read()
+            #data.append(data1)   
+        #return len(file_names)
 
 
 def update_statlist(stats_list=stats_list):
 
-    path = ('stderr/stderr.txt')
+    path = ('stderr.txt')
     # print(os.path.join(path1,path2))
-    file = open(path, "w", encoding="utf-8")
+    file = open(path, "w+", encoding="utf-8")
     for i in range(len(stats_list)):
         file.write(stats_list[i])
         file.write("\n")
+
     file.close()
     # print(stats_list)
     return stats_list
+
+if __name__== '__main__':
+    print("1")
+    parser = argparse.ArgumentParser()
+    print("2234234")
+    parser.add_argument("--input", type=str, required=True, help="Files to be redacted.")
+    print("34434243")
+    parser.add_argument("--names", help="Redact names", action='store_true')
+    print("names")
+    parser.add_argument("--dates", help="Redact dates", action='store_true')
+    print("dates")
+    parser.add_argument("--phones",help="Redact phones", action='store_true')
+    print("phnes")
+    parser.add_argument("--stats", help="Statistics of redacted types", action='store_true')
+    print("stat")
+    parser.add_argument("--concept", type=str, required=False, help="to redact the given concept words")
+    print("cpncept")
+    parser.add_argument("--output", type=str, required=True, help="Redacted Output Files")
+    print("output")
+
+    args, un = parser.parse_known_args()
+    print(args.input)
+    temp, filenames_1 =Read_files(args.input)
+    str1 = ""
+    count = 0
+    for i in temp:
+        str1 = i
+        if (args.names):
+            str1, list_names, count_names  = sanitize_names(str1)
+        
+        if (args.phones):
+            str1, list_phones, count_phones  = sanitize_phones(str1)
+        if (args.dates):
+            str1, list_dates, count_dates  = sanitize_dates(str1)
+        if (args.concept):
+            str1, list_concept, count_concept = sanitize_concepts(str1, args.concept)
+        if (args.output):
+            count_files = final_output(filenames_1[count], str1, args.output)
+        count = count+1
+    if (args.stats):
+        update_statlist()
+

@@ -1,0 +1,4 @@
+The count of redacted_names is : 10
+The count of redacted_phones is : 1
+The count of redacted_dates is : 5
+The count of redacted_concept is : 48
