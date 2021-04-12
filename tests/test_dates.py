@@ -7,10 +7,10 @@ import pytest
 
 
 
-d = """ Born and raised in central Argentina, Messi relocated to Spain to join Barcelona at age 13, for whom he made his competitive debut aged 17 in October 2004. He established himself as an integral player for the club within the next three years, and in his first uninterrupted season in 2008"""
+d = """Susie was born in Germany in April 1980. However, due to certain issues her family moved to Spain in 1990."""
 
 
 def test_date():
     (data, list_dates, count) = redactor.sanitize_dates(d)
-    assert c ==2
-    assert ['October 2004' , '2008'] == list_dates
+    assert count == 2
+   
