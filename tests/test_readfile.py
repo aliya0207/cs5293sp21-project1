@@ -1,3 +1,5 @@
+import pytest
+import project1
 from project1 import redactor
 import nltk
 
