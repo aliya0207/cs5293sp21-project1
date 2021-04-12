@@ -101,48 +101,68 @@ def sanitize_phones (data):
 
 def sanitize_concepts (data, key):
     #key="kids"
-    concepts = list(key)
+    concepts = []
+    concepts.append(key)
     sent_list=[]
     synset= wordnet.synsets(key)
     for concept in synset:
         lemmas1 = concept.lemma_names()
         for lemma in lemmas1:
-            concepts.append(lemma)
+            if len(lemma)>1:
+                concepts.append(lemma)
                 
         hypl= concept.hypernyms()
         for i in hypl:
             x = i.lemma_names()
             for lemma in x:
-                concepts.append(lemma)
+                if len(lemma)>1:
+                    concepts.append(lemma)
          
         hypol = concept.hyponyms()
         for i in hypol:
             x = i.lemma_names()
             for lemma in x:
-                concepts.append(lemma)
-        
+                if len(lemma)>1:
+                    concepts.append(lemma)
+    #print(concepts)
     concepts = set(concepts)
+    #print(concepts)
     concepts = concepts & set(nltk.word_tokenize(data))
-    #print (concepts)
+    print (concepts)
     sentences = nltk.sent_tokenize(data)
     count = 0
+    print("concept")
+    data2 = ""
+    print(data)
+    print("################")
     all_concepts = list()
-    for concept in concepts:
-        count += len(re.findall(concept, data))
-        for i in range(len(sentences)):
+    #for concept in concepts:
+        #print(concept)
+    # count += len(re.findall(concept, data))
+
+    for i in range(len(sentences)):
+        for concept in concepts:
+        #print(sentences[i])
             if sentences[i].lower().find(concept) != -1:
+                count+=1
+                #print("True")
                 all_concepts.append (sentences[i])
                 #print (sentences[i])
                 sentences[i] = '\u2588'
                 sent_list.append(all_concepts)
+                break
+        data2 =data2 + sentences[i]
    # data = ''
-    print(concepts)
-    for sent in sentences:
-        data = data + sent
+    #print(concepts)
+    #print(sentences)
+    #for sent in sentences:
+     #   data +=  sent
+    print("################")
+    print(data2)
     selection= "redacted_concept"
     redacted_stats(selection,count)
     #print(data)
-    return data,all_concepts,count
+    return data2,all_concepts,count
 #redact_concepts (data, key)
 
 #print(len(stats_list), stats_list)
@@ -180,10 +200,9 @@ def final_output(text_files,data,output_path):
         os.makedirs(os.path.dirname(folder))
     with open( os.path.join(folder, new_file), "w+") as f:
         #print(data)
-        strs = data.split("\n")
+        #strs = data.split("\n")
         #print(strs)
-        for strdat in strs:
-            data1 = f.write(strdat)
+        data1 = f.write(data)
             #print(strdat)
         #with open(os.path.join(os.getcwd(), filename), "r") as f:
             #data1 = f.read()

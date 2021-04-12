@@ -1,12 +1,12 @@
 The count of redacted_names is : 10
 The count of redacted_phones is : 1
 The count of redacted_dates is : 5
-The count of redacted_concept is : 48
+The count of redacted_concept is : 3
 The count of redacted_names is : 0
 The count of redacted_phones is : 0
 The count of redacted_dates is : 0
 The count of redacted_concept is : 0
 The count of redacted_names is : 9
-The count of redacted_phones is : 0
+The count of redacted_phones is : 1
 The count of redacted_dates is : 9
-The count of redacted_concept is : 67
+The count of redacted_concept is : 0
