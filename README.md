@@ -94,5 +94,7 @@ pipenv run python redactor.py --input '*.txt' \
  For this test, we call the sanitize_concept function in redactor.py.
  Here, to test, I have given the text and then by calling to the function in redactor.py we will get the number of sentences to be redacted. 
                     
-                    
+ ## 5. test input:
+ For this test, we call the Read_files function in redactor.py.
+ Here, to test, I have given the path and then by calling to the function in redactor.py we check if the data matches the datatype we have given or not.
                     
