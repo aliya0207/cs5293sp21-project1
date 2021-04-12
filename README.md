@@ -35,7 +35,8 @@ cs5293p20-project1/
 7. wordnet
 
 ### Function Description:
-
+FOR THIS PROJECT, I HAVE THE MAIN FUNCTION IN redactor.py itself. And all the documents to be read for redaction are in folder project1. 
+The redacted documents are in a folder files which is in project1 as well.
 In this project there are various functions that are used to read a .txt file and then redact sensitive information such as names, date, phone number, and a concept = "kids" which will redact all sentences that consist of words similar to the concept given.
 
 #### def Read_files(text_files):
