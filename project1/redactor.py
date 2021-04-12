@@ -129,16 +129,16 @@ def sanitize_concepts (data, key):
         for i in range(len(sentences)):
             if sentences[i].lower().find(concept) != -1:
                 all_concepts.append (sentences[i])
-                print (sentences[i])
+                #print (sentences[i])
                 sentences[i] = '\u2588'
                 sent_list.append(all_concepts)
    # data = ''
-    print(sentences)
+    #print(sentences)
     for sent in sentences:
         data = data + sent
     selection= "redacted_concept"
     redacted_stats(selection,count)
-    print(data)
+    #print(data)
     return data,all_concepts,count
 #redact_concepts (data, key)
 
@@ -170,13 +170,13 @@ def final_output(text_files,data,output_path):
     #for filename in glob.glob(os.path.join(os.getcwd(),text_files)):
         #if text_files
     folder = os.getcwd() + '/'+output_path
-    print("Here")
+    #print("Here")
     new_file = text_files.replace(".txt", ".redacted.txt")
     isFolder = os.path.isdir(folder)
     if isFolder== False:
         os.makedirs(os.path.dirname(folder))
     with open( os.path.join(folder, new_file), "w+") as f:
-        print(data)
+        #print(data)
         strs = data.split("\n")
         print(strs)
         for strdat in strs:
@@ -202,26 +202,26 @@ def update_statlist(stats_list=stats_list):
     return stats_list
 
 if __name__== '__main__':
-    print("1")
+    
     parser = argparse.ArgumentParser()
-    print("2234234")
+    
     parser.add_argument("--input", type=str, required=True, help="Files to be redacted.")
-    print("34434243")
+    
     parser.add_argument("--names", help="Redact names", action='store_true')
-    print("names")
+    
     parser.add_argument("--dates", help="Redact dates", action='store_true')
-    print("dates")
+    
     parser.add_argument("--phones",help="Redact phones", action='store_true')
-    print("phnes")
+    
     parser.add_argument("--stats", help="Statistics of redacted types", action='store_true')
-    print("stat")
+    
     parser.add_argument("--concept", type=str, required=False, help="to redact the given concept words")
-    print("cpncept")
+    
     parser.add_argument("--output", type=str, required=True, help="Redacted Output Files")
-    print("output")
+    
 
     args, un = parser.parse_known_args()
-    print(args.input)
+    #print(args.input)
     temp, filenames_1 =Read_files(args.input)
     str1 = ""
     count = 0
