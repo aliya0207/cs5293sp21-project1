@@ -11,4 +11,4 @@ def test_phones():
     (data, phone_number,count) = redactor.sanitize_phones(t)
     print(phone_number)
     assert  count == 2
-   # assert phone_number == ['123-678-2234', '507-113-2567']
+  
